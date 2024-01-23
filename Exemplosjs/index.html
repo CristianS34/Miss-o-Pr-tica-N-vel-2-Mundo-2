@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Cdn do bootstrap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Ordenando</title>
+</head>
+
+<body>
+
+    <!--Barra de navegação-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Ordenação</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="receitas.html">Receitas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="usuarios.html">Usuários</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <label for="valor">Digite um número:</label>
+    <input type="number" name="valor" id="valor" placeholder="Digite um número">
+    <button type="button" onclick="add()" class="btn btn-primary">Adicionar</button>
+
+    <hr>
+
+    <select name="acao" id="acao" class="form-select form-select-sm" aria-label="Default select example">
+        <option value="Selection Sort">Selection Sort</option>
+        <option value="Blubble Sort" selected>Blubble Sort</option>
+        <option value="Quick Sort">Quick Sort</option>
+    </select>
+
+    <hr>
+
+    <button type="button" onclick="ordenar()" class="btn btn-primary">Ordenar</button>
+    <button type="button" onclick="misturar()" class="btn btn-primary">Misturar</button>
+
+    <hr>
+    <p>Lista dos valores adicionados:</p>
+    <br>
+    <ul id="valores"></ul>
+
+
+<!--Script Js-->
+    <script src="/src/ordenando.js"></script>
+    <script>
+
+        vetor = [];
+
+        function list_vetor() {
+            const ul = document.getElementById("valores");
+            ul.innerHTML = "";
+            vetor.map(function (elem) {
+                let li = document.createElement("li");
+                li.appendChild(document.createTextNode(elem));
+                ul.appendChild(li);
+            });
+        }
+
+        function add() {
+            console.log("add");
+            const valor = document.getElementById("valor");
+
+            if (valor.value == '') {
+                return
+            }
+
+            if (vetor.includes(eval(valor.value)) == false) {
+                vetor.push(eval(valor.value));
+            };
+            list_vetor();
+            valor.value = '';
+
+
+
+        };
+
+        function ordenar() {
+            const select = document.getElementById("acao");
+            const select_value = select.value;
+            alert(select_value)
+
+            switch (select_value) {
+                case "Blubble Sort":
+                    vetor = bubble_sort(vetor);
+                    list_vetor();
+                    break;
+                case "Selection Sort":
+                    vetor = selection_sort(vetor);
+                    list_vetor();
+                    break;
+                case "Quick Sort":
+                    vetor = quick_sort(vetor, 0, vetor.length - 1);
+                    list_vetor();
+                    break;
+                default:
+                    console.log(`select_value invalido '${select_value}'`);
+            };
+        };
+
+        function misturar() {
+            vetor = shuffle(vetor, vetor.length);
+            list_vetor();
+        };
+    </script>
+
+
+</body>
+
+</html>
